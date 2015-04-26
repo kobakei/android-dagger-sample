@@ -4,14 +4,37 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.kskkbys.android_dagger_sample.di.ContextModule;
+import com.kskkbys.android_dagger_sample.di.DaggerMyComponent;
+import com.kskkbys.android_dagger_sample.di.HelperModule;
+import com.kskkbys.android_dagger_sample.di.MyComponent;
+import com.kskkbys.android_dagger_sample.helper.ToastHelper;
+
+import javax.inject.Inject;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    @Inject
+    ToastHelper mToastHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // コンポーネントを作成
+        MyComponent component = DaggerMyComponent.builder().contextModule(new ContextModule(this)).build();
+
+        // 使い方１：コンポーネントからインスタンスを取得するパターン
+        TextView tv = (TextView)findViewById(R.id.textView);
+        tv.setText(component.packageNameHelper().getVersionName());
+
+        // 使い方２：injectで@Injectがついた変数にインスタンスをセットする
+        component.inject(this);
+        mToastHelper.show();
     }
 
 

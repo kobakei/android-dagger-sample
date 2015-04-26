@@ -27,3 +27,13 @@ proguard/
 *.log
 
 .DS_Store
+
+.classpath
+.project
+*.iml
+*.ipr
+*.iws
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/libraries/
+
